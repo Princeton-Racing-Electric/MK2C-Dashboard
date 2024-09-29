@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 56" width="104" height="56">
+	<title>battery_red-svg</title>
+	<defs>
+		<image  width="104" height="56" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGgAAAA4CAMAAAAmTE1kAAAAAXNSR0IB2cksfwAAAMxQTFRFAAAAvDc3vjc3vTg4vTk5vzk5vTc3vzg4vzo6vjg4vjg4vzg4xjk5v0BAqlVVvjg4vjg4vjg4vjc3vzg4vzc3wDc3vTg4vDc3vjk5vTc3vjc3tzg4vzc3vjc3qioqvzk5vyoq/wAAuS4uujo6vjg4vjg4vzg4vjc3vzg4vjg4vDc3vzk5uDk5vzMzvzU1xjk5vjc3vTg4vjk5vjg4tjc3uzMzvjg4zDMzvjk5vjc3vTk5vjk5vTc3vjg4wDY2vjg4vjg4vzk5vzc3vjg4inMp6AAAAER0Uk5TAC6Bo6qqon8srP+fCQgD/vf2ZrK+Qf1BQ93PIBwzBigMAQswrfRboaCJFyQSFBgSaoS0/A4PuwXvpqKip+xVVoWHOP3HqlU7AAABWklEQVR4nO3Y3UsCQRAA8FlCwswKEdFEogjLyiRBfIvoH4+eIimIviiiL5MiIgorkaizmVX3FpMCb3cfZIa72Tvu43c7+7K3AhyF6LYULWxbvdu/b/j1BG0YzT5QWPR7RdAQHz3QuGeDoRh506GJL1sOhDwlITT1aQ2C0RcfislBCz+bNuINypEnBSXesYk+mnYAknXKjS4U/cY8+WDeAZh+1aE0VTFWswFlaDji1Q40Q0VM3NiAZmk8vKYOJa9sQDCGe+qSIYZ0aP4+7QTK1hz1aOHOEbRYHTaISzcwxKUbGOLSMcQQQwwZhHK3jiD6HXc0JV46HbK5N0OBoOVrzHPHNpy8/DU67ECFC8zZAxvQ2jloCxqyf+rUZLRXzXyoeIZNTuyZdkonlFcqCiofyYNV00ud+/JqfldBsG68M36UttX34L5R+ePWQFHeUody1XZT7NhgQnWt8D/Q6t5YV/LYYwAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+	</style>
+	<use  href="#img1" x="0" y="0"/>
+</svg>
