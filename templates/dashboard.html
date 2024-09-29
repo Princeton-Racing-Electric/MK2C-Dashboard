@@ -13,9 +13,9 @@
   <div id="odometer_acceleration" style="left: 203px; top: 255px; position: absolute; color: #A7A7A7; font-size: 28px; font-family: Inter; font-weight: 200; letter-spacing: 1.40px; word-wrap: break-word">{{ odometer }} miles · {{ acceleration }} ft/s²</div>
   <div style="width: 78px; height: 99px; left: 30px; top: 190px; position: absolute">
     <div style="width: 30px; height: 84px; left: 0px; top: 0px; position: absolute; background: #4D4D4D; border-radius: 11px"></div>
-    <div style="width: 30px; height: 63px; left: 0px; top: 21px; position: absolute; background: #38BE56; border-radius: 11px"></div>
+    <div id="throttle_bar" style="width: 30px; height: 84px; left: 0px; bottom: 15px; position: absolute; background: #38BE56; border-radius: 11px"></div>
     <div style="width: 30px; height: 84px; left: 48px; top: 0px; position: absolute; background: #4D4D4D; border-radius: 11px"></div>
-    <div style="width: 30px; height: 34px; left: 48px; top: 50px; position: absolute; background: #BE3838; border-radius: 11px"></div>
+    <div id="brake_bar" style="width: 30px; height: 84px; left: 48px; bottom: 15px; position: absolute; background: #BE3838; border-radius: 11px"></div>
     <div id="throttle" style="left: 5px; top: 87px; position: absolute; color: white; font-size: 10px; font-family: Inter; font-weight: 200; letter-spacing: 0.50px; word-wrap: break-word">{{ throttle }}%</div>
     <div id="brake" style="left: 53px; top: 87px; position: absolute; color: white; font-size: 10px; font-family: Inter; font-weight: 200; letter-spacing: 0.50px; word-wrap: break-word">{{ brake }}%</div>
   </div>
@@ -24,7 +24,7 @@
     <img style="width: 32px; height: 34px; left: 0px; top: 0px; position: absolute; opacity: 10%;" src="/static/img/warning_temperature.svg" />
   </div>
   <div style="width: 104px; height: 56px; left: 496px; top: 20px; position: absolute">
-    <img id="#battery" style="width: 104px; height: 56px; left: 0px; top: 0px; position: absolute" src="/static/img/battery_green.svg" />
+    <img id="#battery" style="width: 104px; height: 56px; left: 0px; top: 0px; position: absolute" src="/static/img/battery_red.svg" />
     <div id="soc" style="left: 32px; top: 11px; position: absolute; color: #BE3838; font-size: 28px; font-family: Inter; font-weight: 600; letter-spacing: 1.40px; word-wrap: break-word">{{ soc }}</div>
   </div>
   <div style="width: 67px; left: 23px; top: 20px; position: absolute">
