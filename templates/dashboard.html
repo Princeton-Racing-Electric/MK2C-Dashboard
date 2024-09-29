@@ -7,10 +7,10 @@
 <div style="width: 622px; height: 306px; position: relative"></div>
   <div style="width: 622px; height: 306px; left: 0px; top: 0px; position: absolute; background: #151515; border-radius: 19px"></div>
   <div style="width: 142px; height: 167px; left: 240px; top: 70px; position: absolute">
-    <div style="left: 0px; top: 0px; position: absolute; color: white; font-size: 113px; font-family: Inter; font-weight: 700; word-wrap: break-word">{{ speed }}</div>
+    <div id="speed" style="left: 0px; top: 0px; position: absolute; color: white; font-size: 113px; font-family: Inter; font-weight: 700; word-wrap: break-word">{{ speed }}</div>
     <div style="left: 14px; top: 110px; position: absolute; color: #A7A7A7; font-size: 47px; font-family: Inter; font-weight: 200; letter-spacing: 4.23px; word-wrap: break-word">MPH</div>
   </div>
-  <div style="left: 203px; top: 255px; position: absolute; color: #A7A7A7; font-size: 28px; font-family: Inter; font-weight: 200; letter-spacing: 1.40px; word-wrap: break-word">{{ odometer }} miles · {{ acceleration }} ft/s²</div>
+  <div id="odometer_acceleration" style="left: 203px; top: 255px; position: absolute; color: #A7A7A7; font-size: 28px; font-family: Inter; font-weight: 200; letter-spacing: 1.40px; word-wrap: break-word">{{ odometer }} miles · {{ acceleration }} ft/s²</div>
   <div style="width: 78px; height: 99px; left: 30px; top: 190px; position: absolute">
     <div style="width: 30px; height: 84px; left: 0px; top: 0px; position: absolute; background: #4D4D4D; border-radius: 11px"></div>
     <div style="width: 30px; height: 63px; left: 0px; top: 21px; position: absolute; background: #38BE56; border-radius: 11px"></div>
@@ -25,13 +25,15 @@
   </div>
   <div style="width: 104px; height: 56px; left: 496px; top: 20px; position: absolute">
     <img style="width: 104px; height: 56px; left: 0px; top: 0px; position: absolute" src="/static/img/battery.svg" />
-    <div style="left: 32px; top: 11px; position: absolute; color: #BE3838; font-size: 28px; font-family: Inter; font-weight: 600; letter-spacing: 1.40px; word-wrap: break-word">{{ soc }}</div>
+    <div id="soc" style="left: 32px; top: 11px; position: absolute; color: #BE3838; font-size: 28px; font-family: Inter; font-weight: 600; letter-spacing: 1.40px; word-wrap: break-word">{{ soc }}</div>
   </div>
   <div style="width: 67px; left: 23px; top: 20px; position: absolute">
     <img style="width: 56px; height: 56px; left: 0px; top: 0px; position: absolute;" src="/static/img/temperature.svg" />
-    <div style="left: 0px; top: 60px; position: absolute; color: white; font-size: 28px; font-family: Inter; font-weight: 400; letter-spacing: 1.40px; word-wrap: break-word">{{ temperature }}°F</div>
+    <div id="temperature" style="left: 0px; top: 60px; position: absolute; color: white; font-size: 28px; font-family: Inter; font-weight: 400; letter-spacing: 1.40px; word-wrap: break-word">{{ temperature }}°F</div>
   </div>
   <img style="width: 135px; height: 135px; left: 456px; top: 102px; position: absolute" src="/static/img/map.svg" />
   <div style="width: 13px; height: 13px; left: 495px; top: 138px; position: absolute; background: #3C81E9; border-radius: 9999px"></div>
-  <div style="left: 268px; top: 11px; position: absolute; color: white; font-size: 34px; font-family: Inter; font-weight: 100; letter-spacing: 1.70px; word-wrap: break-word">{{ time }}</div>
+  <div id="time" style="left: 268px; top: 11px; position: absolute; color: white; font-size: 34px; font-family: Inter; font-weight: 100; letter-spacing: 1.70px; word-wrap: break-word">{{ time }}</div>
 </div>
+
+<script src="/static/script.js"></script>
