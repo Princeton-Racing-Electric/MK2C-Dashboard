@@ -1,22 +1,32 @@
-const speed = document.getElementById('speed');
-const temperature = document.getElementById('temperature');
-const soc = document.getElementById('soc');
-const odometer_acceleration = document.getElementById('odometer_acceleration');
-const throttle = document.getElementById('throttle');
-const brake = document.getElementById('brake');
-const time = document.getElementById('time');
-const throttle_bar = document.getElementById('throttle_bar');
-const brake_bar = document.getElementById('brake_bar');
+const speed = document.getElementById("speed");
+const temperature = document.getElementById("temperature");
+const soc = document.getElementById("soc");
+const battery = document.getElementById("battery");
+const odometer_acceleration = document.getElementById("odometer_acceleration");
+const throttle = document.getElementById("throttle");
+const brake = document.getElementById("brake");
+const time = document.getElementById("time");
+const throttle_bar = document.getElementById("throttle_bar");
+const brake_bar = document.getElementById("brake_bar");
 
 async function updateValues() {
-  await fetch('/status', {
-    method: 'GET',
+  await fetch("/status", {
+    method: "GET",
   }).then((response) => {
     response.json().then((data) => {
       speed.innerHTML = data.speed;
-      temperature.innerHTML = `${data.temperature}°F`;
-      soc.innerHTML = data.soc;
-      odometer_acceleration.innerHTML = `${ data.odometer } miles · ${ data.acceleration } ft/s²`;
+      temperature.innerHTML = `${Math.floor(data.temperature)}°F`;
+
+      soc.innerHTML = Math.floor(data.soc);
+      soc.style.color = data.soc <= 20 ? "#BE3838" : "#38BE56";
+      battery.src =
+        data.soc <= 20
+          ? "/static/img/battery_red.svg"
+          : "/static/img/battery_green.svg";
+
+      odometer_acceleration.innerHTML = `${data.odometer.toFixed(
+        1
+      )} miles · ${data.acceleration.toFixed(1)} ft/s²`;
       throttle.innerHTML = `${data.throttle}%`;
       brake.innerHTML = `${data.brake}%`;
 
@@ -27,7 +37,9 @@ async function updateValues() {
   });
 
   const date = new Date();
-  time.innerHTML = `${date.getHours()}:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`;
+  time.innerHTML = `${date.getHours()}:${
+    date.getMinutes() < 10 ? "0" : ""
+  }${date.getMinutes()}`;
 }
 
-setInterval(updateValues, 50);
+setInterval(updateValues, 200);
