@@ -28,8 +28,9 @@ async function updateValues() {
         temperature.style.opacity = 0;
       }
 
-      if (data.soc) {
+      if (data.soc != null) {
         soc.style.opacity = 1;
+        battery.style.opacity = 1;
         soc.innerHTML = Math.floor(data.soc);
         soc.style.color = data.soc <= 20 ? "#BE3838" : "#38BE56";
         battery.src =
@@ -41,11 +42,17 @@ async function updateValues() {
         battery.style.opacity = 0;
       }
 
-      if (data.odometer) {
+      if (data.odometer && data.acceleration != null) {
         odometer_acceleration.style.opacity = 1;
         odometer_acceleration.innerHTML = `${data.odometer.toFixed(
           1
         )} miles · ${data.acceleration.toFixed(1)} ft/s²`;
+      } else if (data.odometer) {
+        odometer_acceleration.style.opacity = 1;
+        odometer_acceleration.innerHTML = `${data.odometer.toFixed(1)} miles`;
+      } else if (data.acceleration) {
+        odometer_acceleration.style.opacity = 1;
+        odometer_acceleration.innerHTML = `${data.acceleration.toFixed(1)} ft/s²`;
       } else {
         odometer_acceleration.style.opacity = 0;
       }
@@ -77,5 +84,17 @@ async function updateValues() {
     date.getMinutes() < 10 ? "0" : ""
   }${date.getMinutes()}`;
 }
+
+async function nextMode() {
+  await fetch("/nextMode", {
+    method: "POST",
+  }).then((response) => {
+    response.json().then((data) => {
+      console.log(data);
+    });
+  });
+}
+
+document.addEventListener("click", nextMode);
 
 setInterval(updateValues, 200);

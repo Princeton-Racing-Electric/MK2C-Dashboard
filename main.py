@@ -62,16 +62,19 @@ def update_status(speed, temperature, soc, odometer, acceleration, throttle, bra
 
 # =-=-=-=-=-=-= DRIVE MODES =-=-=-=-=-=-=
 driveModes = []
-currentDriveMode = 1
+currentDriveMode = 3
 
 modeAcceleration = DriveMode("Acceleration", speed=True, acceleration=True)
 modeAutocross = DriveMode("Autocross", speed=True,
                           acceleration=True, throttle=True, brake=True)
 modeEndurance = DriveMode("Endurance", speed=True,
                           temperature=True, soc=True, odometer=True)
+modeDebug = DriveMode("Debug", speed=True, temperature=True,
+                      soc=True, odometer=True, acceleration=True, throttle=True, brake=True)
 driveModes.append(modeAcceleration)
 driveModes.append(modeAutocross)
 driveModes.append(modeEndurance)
+driveModes.append(modeDebug)
 
 # =-=-=-=-=-=-= FLASK SETUP =-=-=-=-=-=-=
 app = Flask(__name__)
@@ -92,6 +95,13 @@ def status() -> Response:
                     'acceleration': acceleration.value if driveModes[currentDriveMode].get_acceleration() else None,
                     'throttle': throttle.value if driveModes[currentDriveMode].get_throttle() else None,
                     'brake': brake.value if driveModes[currentDriveMode].get_brake() else None, })
+
+@app.route('/nextMode', methods=['POST'])
+def next_mode() -> Response:
+    global currentDriveMode
+    currentDriveMode = (currentDriveMode + 1) % len(driveModes)
+    return jsonify({'mode': driveModes[currentDriveMode].get_name()})
+
 
 # =-=-=-=-=-=-= START EVERYTHING =-=-=-=-=-=-=
 if __name__ == '__main__':
