@@ -28,11 +28,13 @@
     <div id="soc" style="left: 32px; top: 11px; position: absolute; color: #BE3838; font-size: 28px; font-family: Inter; font-weight: 600; letter-spacing: 1.40px; word-wrap: break-word">{{ soc }}</div>
   </div>
   <div style="width: 67px; left: 23px; top: 20px; position: absolute">
-    <img style="width: 56px; height: 56px; left: 0px; top: 0px; position: absolute;" src="/static/img/temperature.svg" />
+    <img id="thermometer" style="width: 56px; height: 56px; left: 0px; top: 0px; position: absolute;" src="/static/img/temperature.svg" />
     <div id="temperature" style="left: 0px; top: 60px; position: absolute; color: white; font-size: 28px; font-family: Inter; font-weight: 400; letter-spacing: 1.40px; word-wrap: break-word">{{ temperature }}°F</div>
   </div>
-  <img style="width: 135px; height: 135px; left: 456px; top: 102px; position: absolute" src="/static/img/map.svg" />
-  <div style="width: 13px; height: 13px; left: 495px; top: 138px; position: absolute; background: #3C81E9; border-radius: 9999px"></div>
+  <div id="map">
+    <img style="width: 135px; height: 135px; left: 456px; top: 102px; position: absolute" src="/static/img/map.svg" />
+    <div style="width: 13px; height: 13px; left: 495px; top: 138px; position: absolute; background: #3C81E9; border-radius: 9999px"></div>
+  </div>
   <div id="time" style="left: 268px; top: 11px; position: absolute; color: white; font-size: 34px; font-family: Inter; font-weight: 100; letter-spacing: 1.70px; word-wrap: break-word">{{ time }}</div>
 </div>
 

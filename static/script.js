@@ -1,5 +1,6 @@
 const speed = document.getElementById("speed");
 const temperature = document.getElementById("temperature");
+const thermometer = document.getElementById("thermometer");
 const soc = document.getElementById("soc");
 const battery = document.getElementById("battery");
 const odometer_acceleration = document.getElementById("odometer_acceleration");
@@ -8,6 +9,7 @@ const brake = document.getElementById("brake");
 const time = document.getElementById("time");
 const throttle_bar = document.getElementById("throttle_bar");
 const brake_bar = document.getElementById("brake_bar");
+const map = document.getElementById("map");
 
 async function updateValues() {
   await fetch("/status", {
@@ -23,9 +25,11 @@ async function updateValues() {
 
       if (data.temperature) {
         temperature.style.opacity = 1;
+        thermometer.style.opacity = 1;
         temperature.innerHTML = `${Math.floor(data.temperature)}°F`;
       } else {
         temperature.style.opacity = 0;
+        thermometer.style.opacity = 0;
       }
 
       if (data.soc != null) {
@@ -75,6 +79,12 @@ async function updateValues() {
       } else {
         brake.style.opacity = 0;
         brake_bar.style.opacity = 0;
+      }
+
+      if (data.map) {
+        map.style.opacity = 1;
+      } else {
+        map.style.opacity = 0;
       }
     });
   });

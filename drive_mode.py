@@ -1,5 +1,5 @@
 class DriveMode:
-    def __init__(self, name, speed=False, temperature=False, soc=False, odometer=False, acceleration=False, throttle=False, brake=False):
+    def __init__(self, name, speed=False, temperature=False, soc=False, odometer=False, acceleration=False, throttle=False, brake=False, map=False):
         self.name = name
         self.speed = speed
         self.temperature = temperature
@@ -8,6 +8,7 @@ class DriveMode:
         self.acceleration = acceleration
         self.throttle = throttle
         self.brake = brake
+        self.map = map
 
     def get_name(self) -> str:
         return self.name
@@ -32,3 +33,6 @@ class DriveMode:
 
     def get_brake(self) -> bool:
         return self.brake
+    
+    def get_map(self) -> bool:
+        return self.map

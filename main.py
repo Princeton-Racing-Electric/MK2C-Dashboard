@@ -68,9 +68,9 @@ modeAcceleration = DriveMode("Acceleration", speed=True, acceleration=True)
 modeAutocross = DriveMode("Autocross", speed=True,
                           acceleration=True, throttle=True, brake=True)
 modeEndurance = DriveMode("Endurance", speed=True,
-                          temperature=True, soc=True, odometer=True)
+                          temperature=True, soc=True, odometer=True, map=True)
 modeDebug = DriveMode("Debug", speed=True, temperature=True,
-                      soc=True, odometer=True, acceleration=True, throttle=True, brake=True)
+                      soc=True, odometer=True, acceleration=True, throttle=True, brake=True, map=True)
 driveModes.append(modeAcceleration)
 driveModes.append(modeAutocross)
 driveModes.append(modeEndurance)
@@ -94,7 +94,9 @@ def status() -> Response:
                     'odometer': odometer.value if driveModes[currentDriveMode].get_odometer() else None,
                     'acceleration': acceleration.value if driveModes[currentDriveMode].get_acceleration() else None,
                     'throttle': throttle.value if driveModes[currentDriveMode].get_throttle() else None,
-                    'brake': brake.value if driveModes[currentDriveMode].get_brake() else None, })
+                    'brake': brake.value if driveModes[currentDriveMode].get_brake() else None,
+                    'map': driveModes[currentDriveMode].get_map(), })
+
 
 @app.route('/nextMode', methods=['POST'])
 def next_mode() -> Response:
