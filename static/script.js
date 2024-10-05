@@ -5,10 +5,12 @@ const soc = document.getElementById("soc");
 const battery = document.getElementById("battery");
 const odometer_acceleration = document.getElementById("odometer_acceleration");
 const throttle = document.getElementById("throttle");
-const brake = document.getElementById("brake");
-const time = document.getElementById("time");
+const throttle_bg = document.getElementById("throttle_bg");
 const throttle_bar = document.getElementById("throttle_bar");
+const brake = document.getElementById("brake");
+const brake_bg = document.getElementById("brake_bg");
 const brake_bar = document.getElementById("brake_bar");
+const time = document.getElementById("time");
 const map = document.getElementById("map");
 
 async function updateValues() {
@@ -54,31 +56,35 @@ async function updateValues() {
       } else if (data.odometer) {
         odometer_acceleration.style.opacity = 1;
         odometer_acceleration.innerHTML = `${data.odometer.toFixed(1)} miles`;
-      } else if (data.acceleration) {
+      } else if (data.acceleration != null) {
         odometer_acceleration.style.opacity = 1;
         odometer_acceleration.innerHTML = `${data.acceleration.toFixed(1)} ft/s²`;
       } else {
         odometer_acceleration.style.opacity = 0;
       }
 
-      if (data.throttle) {
+      if (data.throttle != null) {
         throttle.style.opacity = 1;
         throttle.innerHTML = `${data.throttle}%`;
         throttle_bar.style.opacity = 1;
         throttle_bar.style.height = `${data.throttle * 0.84}px`;
+        throttle_bg.style.opacity = 1;
       } else {
         throttle.style.opacity = 0;
         throttle_bar.style.opacity = 0;
+        throttle_bg.style.opacity = 0;
       }
 
-      if (data.brake) {
+      if (data.brake != null) {
         brake.style.opacity = 1;
         brake.innerHTML = `${data.brake}%`;
         brake_bar.style.opacity = 1;
         brake_bar.style.height = `${data.brake * 0.84}px`;
+        brake_bg.style.opacity = 1;
       } else {
         brake.style.opacity = 0;
         brake_bar.style.opacity = 0;
+        brake_bg.style.opacity = 0; 
       }
 
       if (data.map) {
@@ -100,7 +106,7 @@ async function nextMode() {
     method: "POST",
   }).then((response) => {
     response.json().then((data) => {
-      console.log(data);
+      console.log(data.mode);
     });
   });
 }
