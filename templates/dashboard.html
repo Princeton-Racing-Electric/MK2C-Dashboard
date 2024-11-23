@@ -4,7 +4,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 
-<div style="width: 622px; height: 306px; position: relative"></div>
+{# <div style="width: 622px; height: 306px; position: relative"></div>
   <div style="width: 622px; height: 306px; left: 0px; top: 0px; position: absolute; background: #151515; border-radius: 19px"></div>
   <div style="width: 142px; height: 167px; left: 240px; top: 70px; position: absolute">
     <div id="speed" style="left: 0px; top: 0px; position: absolute; color: white; font-size: 113px; font-family: Inter; font-weight: 700; word-wrap: break-word">{{ speed }}</div>
@@ -19,9 +19,10 @@
     <div id="throttle" style="left: 5px; top: 87px; position: absolute; color: white; font-size: 10px; font-family: Inter; font-weight: 200; letter-spacing: 0.50px; word-wrap: break-word">{{ throttle }}%</div>
     <div id="brake" style="left: 53px; top: 87px; position: absolute; color: white; font-size: 10px; font-family: Inter; font-weight: 200; letter-spacing: 0.50px; word-wrap: break-word">{{ brake }}%</div>
   </div>
-  <div style="width: 83px; height: 34px; left: 504px; top: 255px; position: absolute">
-    <img style="width: 39px; height: 34px; left: 44px; top: 0px; position: absolute; opacity: 100%;" src="/static/img/warning_battery.svg" />
-    <img style="width: 32px; height: 34px; left: 0px; top: 0px; position: absolute; opacity: 10%;" src="/static/img/warning_temperature.svg" />
+  <div style="width: 126px; height: 34px; left: 480px; top: 255px; position: absolute">
+    <img style="width: 31px; height: 34px; left: 0px; top: 0px; position: absolute; opacity:100%;" src="/static/img/warning_traction.svg" />
+    <img style="width: 39px; height: 34px; left: 87px; top: 0px; position: absolute; opacity: 10%;" src="/static/img/warning_temperature.svg" />
+    <img style="width: 32px; height: 34px; left: 43px; top: 0px; position: absolute; opacity:100%;" src="/static/img/warning_battery.svg" />
   </div>
   <div style="width: 104px; height: 56px; left: 496px; top: 20px; position: absolute">
     <img id="battery" style="width: 104px; height: 56px; left: 0px; top: 0px; position: absolute" src="/static/img/battery_red.svg" />
@@ -36,6 +37,41 @@
     <div style="width: 13px; height: 13px; left: 495px; top: 138px; position: absolute; background: #3C81E9; border-radius: 9999px"></div>
   </div>
   <div id="time" style="left: 268px; top: 11px; position: absolute; color: white; font-size: 34px; font-family: Inter; font-weight: 100; letter-spacing: 1.70px; word-wrap: break-word">{{ time }}</div>
+  <div id="mode" style="left: 268px; top: 48px; position: absolute; color: #A7A7A7; font-size: 12px; font-family: Inter; font-weight: 400; letter-spacing: 1.20px; word-wrap: break-word; text-transform: uppercase;">{{ mode }}</div>
+</div> #}
+
+<div style="width: 1024px; height: 600px; position: relative">
+  <div style="width: 1024px; height: 600px; left: 0px; top: -0.12px; position: absolute; background: #151515; border-radius: 31.28px"></div>
+  <div style="width: 234px; height: 275.09px; left: 395px; top: 161.88px; position: absolute">
+    <div id="speed" style="left: 0px; top: 0px; position: absolute; color: white; font-size: 186.03px; font-family: Inter; font-weight: 700; word-wrap: break-word">{{ speed }}</div>
+    <div style="left: 23.05px; top: 181.09px; position: absolute; color: #A7A7A7; font-size: 77.38px; font-family: Inter; font-weight: 200; letter-spacing: 6.96px; word-wrap: break-word">MPH</div>
+  </div>
+  <div id="odometer_acceleration" style="left: 330.81px; top: 510.89px; position: absolute; color: #A7A7A7; font-size: 46.10px; font-family: Inter; font-weight: 200; letter-spacing: 2.30px; word-wrap: break-word">{{ odometer }} miles · {{ acceleration }} ft/s²</div>
+  <div style="width: 128.41px; height: 163.23px; left: 46px; top: 403.88px; position: absolute">
+    <div id="throttle_bg" style="width: 49.39px; height: 138.29px; left: 0px; top: 0px; position: absolute; background: #4D4D4D; border-radius: 18.11px"></div>
+    <div id="throttle_bar" style="width: 49.39px; height: 103.72px; left: 0px; bottom: 25px; position: absolute; background: #38BE56; border-radius: 18.11px"></div>
+    <div id="brake_bg" style="width: 49.39px; height: 138.29px; left: 79.02px; top: 0px; position: absolute; background: #4D4D4D; border-radius: 18.11px"></div>
+    <div id="brake_bar" style="width: 49.39px; height: 55.97px; left: 79.02px; bottom:25px; position: absolute; background: #BE3838; border-radius: 18.11px"></div>
+    <div id="throttle" style="left: 8.23px; top: 143.23px; position: absolute; color: white; font-size: 16.46px; font-family: Inter; font-weight: 200; letter-spacing: 0.82px; word-wrap: break-word">{{throttle}}%</div>
+    <div id="brake" style="left: 87.25px; top: 143.23px; position: absolute; color: white; font-size: 16.46px; font-family: Inter; font-weight: 200; letter-spacing: 0.82px; word-wrap: break-word">{{brake}}%</div>
+  </div>
+  <div style="width: 207.43px; height: 55.97px; left: 755.56px; top: 510.89px; position: absolute">
+    <img style="width: 51.04px; height: 55.97px; left: 0px; top: 0px; position: absolute; opacity: 100%;" src="/static/img/warning_traction.svg" />
+    <img style="width: 64.21px; height: 55.97px; left: 143.23px; top: -0px; position: absolute; opacity: 10%;" src="/static/img/warning_temperature.svg" />
+    <img style="width: 52.68px; height: 55.97px; left: 70.79px; top: -0px; position: absolute; opacity: 100%;" src="/static/img/warning_battery.svg" />
+  </div>
+  <div style="width: 171.22px; height: 92.19px; left: 816.57px; top: 32.93px; position: absolute">
+    <img id="battery" style="width: 171.22px; height: 92.19px; left: 0px; top: 0px; position: absolute" src="/static/img/battery_red.svg" />
+    <div id="soc" style="left: 52.68px; top: 18.11px; position: absolute; color: #BE3838; font-size: 46.10px; font-family: Inter; font-weight: 600; letter-spacing: 2.30px; word-wrap: break-word">{{ soc }}</div>
+  </div>
+  <div style="width: 110px; left: 37.86px; top: 32.93px; position: absolute">
+    <img id="thermometer" style="width: 92.19px; height: 92.19px; left: 20px; top: 0px; position: absolute;" src="/static/img/temperature.svg" />
+    <div id="temperature" style="left: 0px; top: 98.78px; position: absolute; color: white; font-size: 46.10px; font-family: Inter; font-weight: 400; letter-spacing: 2.30px; word-wrap: break-word">{{ temperature }}°F</div>
+  </div>
+  <img id="map" style="width: 222.25px; height: 222.25px; left: 750.32px; top: 200.57px; position: absolute" src="/static/img/map.svg" />
+  <div style="width: 21.40px; height: 21.40px; left: 854.92px; top: 234.19px; position: absolute; background: #3C81E9; border-radius: 9999px"></div>
+  <div id="time" style="left: 441.21px; top: 18.11px; position: absolute; color: white; font-size: 55.97px; font-family: Inter; font-weight: 100; letter-spacing: 2.80px; word-wrap: break-word">{{ time }}</div>
+  <div id="mode" style="left: 441.21px; top: 79.02px; position: absolute; color: #A7A7A7; font-size: 19.76px; font-family: Inter; font-weight: 400; letter-spacing: 1.98px; word-wrap: break-word; text-transform:uppercase;">{{ mode }}</div>
 </div>
 
 <script src="/static/script.js"></script>

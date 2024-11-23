@@ -64,7 +64,7 @@ def update_status(speed, temperature, soc, odometer, acceleration, throttle, bra
 driveModes = []
 currentDriveMode = 3
 
-modeAcceleration = DriveMode("Acceleration", speed=True, acceleration=True)
+modeAcceleration = DriveMode("Acceleration", speed=True, acceleration=True, odometer=True)
 modeAutocross = DriveMode("Autocross", speed=True,
                           acceleration=True, throttle=True, brake=True)
 modeEndurance = DriveMode("Endurance", speed=True,
@@ -83,7 +83,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def dashboard() -> str:
     return render_template('dashboard.html', speed=speed.value, temperature=temperature.value, soc=soc.value, odometer=odometer.value,
-                           acceleration=acceleration.value, throttle=throttle.value, brake=brake.value)
+                           acceleration=acceleration.value, throttle=throttle.value, brake=brake.value, mode=driveModes[currentDriveMode].get_name())
 
 
 @app.route('/status', methods=['GET'])
@@ -95,7 +95,8 @@ def status() -> Response:
                     'acceleration': acceleration.value if driveModes[currentDriveMode].get_acceleration() else None,
                     'throttle': throttle.value if driveModes[currentDriveMode].get_throttle() else None,
                     'brake': brake.value if driveModes[currentDriveMode].get_brake() else None,
-                    'map': driveModes[currentDriveMode].get_map(), })
+                    'map': driveModes[currentDriveMode].get_map(), 
+                    'mode': driveModes[currentDriveMode].get_name()})
 
 
 @app.route('/nextMode', methods=['POST'])
