@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Status Dashboard</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include Moment.js library -->
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- Include Chart.js Time Adapter -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <style>
+        /* CSS to arrange the graphs in a grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
+        .graph-container {
+            width: 100%;
+            height: 300px;
+        }
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Status Dashboard</h1>
+    <div class="grid-container">
+        <!-- Speed and Acceleration Graph -->
+        <div class="graph-container">
+            <canvas id="speedChart"></canvas>
+        </div>
+        <!-- Brake Pressure Graph -->
+        <div class="graph-container">
+            <canvas id="brakeChart"></canvas>
+        </div>
+        <!-- Steering Angle Graph -->
+        <div class="graph-container">
+            <canvas id="steerChart"></canvas>
+        </div>
+        <!-- Temperature Graph -->
+        <div class="graph-container">
+            <canvas id="tempChart"></canvas>
+        </div>
+        <!-- Suspension Travel Graph -->
+        <div class="graph-container">
+            <canvas id="suspensionChart"></canvas>
+        </div>
+        <!-- Lap Time Graph -->
+        <div class="graph-container">
+            <canvas id="lapTimeChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Initialize chart variables
+        let speedChart, brakeChart, steerChart, tempChart, suspensionChart, lapTimeChart;
+
+        // Function to fetch data from the server
+        async function fetchData() {
+            try {
+                const response = await fetch('/api/data');
+
+                // Check if the response is OK
+                if (!response.ok) {
+                    console.error('Network response was not ok:', response.statusText);
+                    return [];
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return [];
+            }
+        }
+
+        // Function to create or update the charts
+        async function updateCharts() {
+            const data = await fetchData();
+
+            // Extract data for plotting
+            const timestamps = data.map(item => item.Timestamp);
+            const speeds = data.map(item => item.Speed);
+            const accelerations = data.map(item => item.Acceleration);
+            const brakePressures = data.map(item => item.BrakePressure);
+            const steerAngles = data.map(item => item.SteerAngle);
+            const temperatures = data.map(item => item.Temperature);
+            const suspensionTravels = data.map(item => item.SuspensionTravel);
+            // Placeholder for lap times (to be calculated)
+            const lapTimes = []; // You need to calculate lap times based on your data
+
+            // Speed and Acceleration Chart
+            if (!speedChart) {
+                const ctx = document.getElementById('speedChart').getContext('2d');
+                speedChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [
+                            {
+                                label: 'Speed',
+                                data: speeds,
+                                borderColor: 'blue',
+                                fill: false,
+                                yAxisID: 'y-speed',
+                            },
+                            {
+                                label: 'Acceleration',
+                                data: accelerations,
+                                borderColor: 'red',
+                                fill: false,
+                                yAxisID: 'y-acceleration',
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    parser: 'YYYY-MM-DD HH:mm:ss',
+                                    tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                                    unit: 'minute',
+                                    displayFormats: {
+                                        minute: 'HH:mm'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            'y-speed': {
+                                type: 'linear',
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Speed'
+                                }
+                            },
+                            'y-acceleration': {
+                                type: 'linear',
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Acceleration'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                            }
+                        }
+                    }
+                });
+            } else {
+                speedChart.data.labels = timestamps;
+                speedChart.data.datasets[0].data = speeds;
+                speedChart.data.datasets[1].data = accelerations;
+                speedChart.update();
+            }
+
+            // Brake Pressure Chart
+            if (!brakeChart) {
+                const ctx = document.getElementById('brakeChart').getContext('2d');
+                brakeChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [
+                            {
+                                label: 'Brake Pressure',
+                                data: brakePressures,
+                                borderColor: 'green',
+                                fill: false,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    parser: 'YYYY-MM-DD HH:mm:ss',
+                                    tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                                    unit: 'minute',
+                                    displayFormats: {
+                                        minute: 'HH:mm'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Brake Pressure'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                brakeChart.data.labels = timestamps;
+                brakeChart.data.datasets[0].data = brakePressures;
+                brakeChart.update();
+            }
+
+            // Steering Angle Chart
+            if (!steerChart) {
+                const ctx = document.getElementById('steerChart').getContext('2d');
+                steerChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [
+                            {
+                                label: 'Steering Angle',
+                                data: steerAngles,
+                                borderColor: 'purple',
+                                fill: false,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    parser: 'YYYY-MM-DD HH:mm:ss',
+                                    tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                                    unit: 'minute',
+                                    displayFormats: {
+                                        minute: 'HH:mm'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Steering Angle'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                steerChart.data.labels = timestamps;
+                steerChart.data.datasets[0].data = steerAngles;
+                steerChart.update();
+            }
+
+            // Temperature Chart
+            if (!tempChart) {
+                const ctx = document.getElementById('tempChart').getContext('2d');
+                tempChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [
+                            {
+                                label: 'Temperature',
+                                data: temperatures,
+                                borderColor: 'orange',
+                                fill: false,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    parser: 'YYYY-MM-DD HH:mm:ss',
+                                    tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                                    unit: 'minute',
+                                    displayFormats: {
+                                        minute: 'HH:mm'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Temperature'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                tempChart.data.labels = timestamps;
+                tempChart.data.datasets[0].data = temperatures;
+                tempChart.update();
+            }
+
+            // Suspension Travel Chart
+            if (!suspensionChart) {
+                const ctx = document.getElementById('suspensionChart').getContext('2d');
+                suspensionChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [
+                            {
+                                label: 'Suspension Travel',
+                                data: suspensionTravels,
+                                borderColor: 'teal',
+                                fill: false,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                                time: {
+                                    parser: 'YYYY-MM-DD HH:mm:ss',
+                                    tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                                    unit: 'minute',
+                                    displayFormats: {
+                                        minute: 'HH:mm'
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Suspension Travel'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                suspensionChart.data.labels = timestamps;
+                suspensionChart.data.datasets[0].data = suspensionTravels;
+                suspensionChart.update();
+            }
+
+            // Lap Time Chart
+            // You need to calculate lap times based on your data
+            // For demonstration, let's assume we have lap time data
+            // Here, we'll create dummy lap times for illustration
+            const lapNumbers = [1, 2, 3, 4, 5]; // Replace with actual lap numbers
+            const lapTimesData = [75, 73, 74, 72, 71]; // Replace with actual lap times in seconds
+
+            if (!lapTimeChart) {
+                const ctx = document.getElementById('lapTimeChart').getContext('2d');
+                lapTimeChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: lapNumbers,
+                        datasets: [
+                            {
+                                label: 'Lap Time (s)',
+                                data: lapTimesData,
+                                backgroundColor: 'navy',
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Lap Number'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Lap Time (s)'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                lapTimeChart.data.labels = lapNumbers;
+                lapTimeChart.data.datasets[0].data = lapTimesData;
+                lapTimeChart.update();
+            }
+        }
+
+        // Update the charts every 1 seconds
+        setInterval(updateCharts, 1000);
+
+        // Initial charts update
+        updateCharts();
+    </script>
+</body>
+</html>
