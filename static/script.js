@@ -128,6 +128,7 @@ async function updateValues() {
   time.innerHTML = `${date.getHours()}:${
     date.getMinutes() < 10 ? "0" : ""
   }${date.getMinutes()}`;
+  document.body.style.cursor = 'none';
 }
 
 async function nextMode() {
