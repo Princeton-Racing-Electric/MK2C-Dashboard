@@ -1,5 +1,6 @@
-# MK2C-Dashboard
+# MK2C Dashboard
 
+To build and develop:
 ```
 python -m venv venv
 source venv/bin/activate
