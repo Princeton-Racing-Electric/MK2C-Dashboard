@@ -12,6 +12,7 @@ const brake_bg = document.getElementById("brake_bg");
 const brake_bar = document.getElementById("brake_bar");
 const time = document.getElementById("time");
 const map = document.getElementById("map");
+const map_dot = document.getElementById("map_dot");
 const mode = document.getElementById("mode");
 
 const ACCEL_DIST = 75; // 75 meters
@@ -116,8 +117,10 @@ async function updateValues() {
 
       if (data.map) {
         map.style.opacity = 1;
+        map_dot.style.opacity = 1;
       } else {
         map.style.opacity = 0;
+        map_dot.style.opacity = 0;
       }
 
       mode.innerHTML = data.mode;
@@ -128,7 +131,7 @@ async function updateValues() {
   time.innerHTML = `${date.getHours()}:${
     date.getMinutes() < 10 ? "0" : ""
   }${date.getMinutes()}`;
-  document.body.style.cursor = 'none';
+  document.body.style.cursor = "none";
 }
 
 async function nextMode() {
