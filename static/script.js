@@ -16,7 +16,32 @@ const map_dot = document.getElementById("map_dot");
 const mode = document.getElementById("mode");
 
 const ACCEL_DIST = 75; // 75 meters
-const ENDUR_DIST = 44000; // 44 km
+const ENDUR_DIST = 44000; // 44 kilometers
+
+// Add settings elements
+const settingsButton = document.getElementById("settings-button");
+const settingsMenu = document.getElementById("settings-menu");
+const overlay = document.getElementById("overlay");
+let isSettingsOpen = false;
+
+// Add settings toggle function
+function toggleSettings(event) {
+  event.stopPropagation(); // Prevent event from bubbling to document click
+  isSettingsOpen = !isSettingsOpen;
+  settingsMenu.style.right = isSettingsOpen ? "0px" : "-350px";
+  overlay.style.opacity = isSettingsOpen ? "1" : "0";
+  overlay.style.pointerEvents = isSettingsOpen ? "auto" : "none";
+}
+
+// Close settings when clicking outside
+document.addEventListener("click", (event) => {
+  if (isSettingsOpen && !settingsMenu.contains(event.target) && event.target !== settingsButton) {
+    isSettingsOpen = false;
+    settingsMenu.style.right = "-350px";
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+  }
+});
 
 async function updateValues() {
   await fetch("/status", {
@@ -144,6 +169,13 @@ async function nextMode() {
   });
 }
 
-document.addEventListener("click", nextMode);
+// Modify existing click handler
+document.removeEventListener("click", nextMode);
+settingsButton.addEventListener("click", toggleSettings);
+document.addEventListener("click", (event) => {
+  if (event.target !== settingsButton && !settingsMenu.contains(event.target)) {
+    nextMode();
+  }
+});
 
 setInterval(updateValues, 200);

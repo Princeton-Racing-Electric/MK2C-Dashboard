@@ -35,8 +35,27 @@
     </div>
     <img id="map" style="width: 222.25px; height: 222.25px; left: 750.32px; top: 200.57px; position: absolute" src="/static/img/map.svg" />
     <div id="map_dot" style="width: 21.40px; height: 21.40px; left: 854.92px; top: 234.19px; position: absolute; background: #3C81E9; border-radius: 9999px"></div>
-    <div id="time" style="left: 441.21px; top: 18.11px; position: absolute; color: white; font-size: 55.97px; font-family: Inter; font-weight: 100; letter-spacing: 2.80px; word-wrap: break-word">{{ time }}</div>
-    <div id="mode" style="left: 441.21px; top: 79.02px; position: absolute; color: #A7A7A7; font-size: 19.76px; font-family: Inter; font-weight: 400; letter-spacing: 1.98px; word-wrap: break-word; text-transform:uppercase;">{{ mode }}</div>
+    <div id="time" style="left: 441.21px; top: 48.11px; position: absolute; color: white; font-size: 55.97px; font-family: Inter; font-weight: 100; letter-spacing: 2.80px; word-wrap: break-word">{{ time }}</div>
+    <div id="mode" style="left: 441.21px; top: 109.02px; position: absolute; color: #A7A7A7; font-size: 14.76px; font-family: Inter; font-weight: 400; letter-spacing: 1.98px; word-wrap: break-word; text-transform:uppercase; text-align: center; width: 141.58px;">{{ mode }}</div>
+    
+    <div id="settings-button" style="width: 40px; height: 40px; right: 495px; top: 10px; position: absolute; cursor: pointer;">
+      <img src="/static/img/menu.svg" style="width: 100%; height: 100%;" />
+    </div>
+
+    <div id="overlay" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: rgba(0, 0, 0, 0.5); opacity: 0; pointer-events: none; transition: opacity 0.25s ease-in-out;"></div>
+
+    <div id="settings-menu" style="width: 350px; height: 100%; right: -350px; top: 0; position: absolute; background: #232323; transition: right 0.25s ease-in-out; padding: 20px; box-sizing: border-box; border-radius: 38px 0 0 38px;">
+      <h2 style="color: white; font-family: Inter; font-weight: 500; margin-bottom: 20px;">Settings</h2>
+      <div style="color: #A7A7A7; font-family: Inter; font-size: 14px;">
+        <div style="margin-bottom: 15px;">
+          <label>Display Units</label>
+          <select id="units-select" style="background: #303030; color: white; border: none; padding: 5px; margin-top: 5px; width: 100%;">
+            <option value="imperial">Imperial (mph, °F)</option>
+            <option value="metric">Metric (km/h, °C)</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
