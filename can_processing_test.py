@@ -2,8 +2,6 @@ from enum import Enum
 import can
 
 # CAN message IDs
-
-
 class CanID(Enum):
     # -- Front ESP32 Board -- #
     POT_DATA_A = 0x100  # Front two linear pots
@@ -44,8 +42,11 @@ def rescale(value):
 
 def parseLatLong(message):
     # Latitude and longitude are signed 32-bit integers representing decimal degrees * 10^7
-    lat_decimal = int.from_bytes(message.data[0:4], byteorder='big', signed=True) / 10000000
-    long_decimal = int.from_bytes(message.data[4:8], byteorder='big', signed=True) / 10000000
+    lat_decimal = int.from_bytes(message.data[0:4], byteorder='little', signed=True) / 10000000
+    long_decimal = int.from_bytes(message.data[4:8], byteorder='little', signed=True) / 10000000
+
+    print(f"Latitude: {lat_decimal}")
+    print(f"Longitude: {long_decimal}")
     
     # Convert latitude to degrees, minutes, seconds
     lat_deg = int(abs(lat_decimal))
@@ -65,15 +66,15 @@ def parseLatLong(message):
 # Parses altitude, COG, speed, DR mode, satellite count, and PDOP from DR_AltSpeedCOG message
 def parseAltSpeedCOG(message):
     # Altitude: 16-bit value with 0.1m precision, range -100 to +6453.5m
-    altitude = int.from_bytes(message.data[0:2], byteorder='big', signed=True) * 0.1
+    altitude = int.from_bytes(message.data[0:2], byteorder='little', signed=True) * 0.1
     
     # COG: 16-bit value with 0.1 degree precision, range 0-360 degrees
-    cog = int.from_bytes(message.data[2:4], byteorder='big') * 0.1
+    cog = int.from_bytes(message.data[2:4], byteorder='little') * 0.1
     if cog > 360:  # Wrap around to valid range
         cog = cog % 360
     
     # Extract speed (bytes 4-5) - 16 bit decimal with 0.1 m/s precision
-    speed = int.from_bytes(message.data[4:6], byteorder='big') * 0.1
+    speed = int.from_bytes(message.data[4:6], byteorder='little') * 0.1
     
     # Extract DR mode (byte 6 bits 0-2) and satellite count (byte 6 bits 3-7)
     dr_mode = message.data[6] & 0x07  # 0x07 = 0b00000111 to mask first 3 bits

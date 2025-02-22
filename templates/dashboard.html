@@ -2,6 +2,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 
 <body style="margin: 0; cursor:none;">
@@ -9,7 +11,7 @@
     <div style="width: 1024px; height: 600px; left: 0px; top: 0px; position: absolute; background: #151515"></div>
     <div style="width: 234px; height: 275.09px; left: 395px; top: 161.88px; position: absolute">
       <div id="speed" style="left: 0px; top: 0px; position: absolute; color: white; font-size: 186.03px; font-family: Inter; font-weight: 700; word-wrap: break-word">{{ speed }}</div>
-      <div style="left: 23.05px; top: 181.09px; position: absolute; color: #A7A7A7; font-size: 77.38px; font-family: Inter; font-weight: 200; letter-spacing: 6.96px; word-wrap: break-word">MPH</div>
+      <div id="speed_unit" style="left: 23.05px; top: 181.09px; position: absolute; color: #A7A7A7; font-size: 77.38px; font-family: Inter; font-weight: 200; letter-spacing: 6.96px; word-wrap: break-word">MPH</div>
     </div>
     <div id="odometer_acceleration" style="left: 330.81px; top: 510.89px; position: absolute; color: #A7A7A7; font-size: 46.10px; font-family: Inter; font-weight: 200; letter-spacing: 2.30px; word-wrap: break-word">{{ odometer }} miles · {{ acceleration }} ft/s²</div>
     <div style="width: 128.41px; height: 163.23px; left: 46px; top: 403.88px; position: absolute">
@@ -33,27 +35,50 @@
       <img id="thermometer" style="width: 92.19px; height: 92.19px; left: 10px; top: 0px; position: absolute;" src="/static/img/temperature.svg" />
       <div id="temperature" style="left: 0px; top: 98.78px; position: absolute; color: white; font-size: 46.10px; font-family: Inter; font-weight: 400; letter-spacing: 2.30px; word-wrap: break-word">{{ temperature }}°F</div>
     </div>
-    <img id="map" style="width: 222.25px; height: 222.25px; left: 750.32px; top: 200.57px; position: absolute" src="/static/img/map.svg" />
-    <div id="map_dot" style="width: 21.40px; height: 21.40px; left: 854.92px; top: 234.19px; position: absolute; background: #3C81E9; border-radius: 9999px"></div>
+    <div id="map-container" style="width: 222.25px; height: 222.25px; left: 750.32px; top: 200.57px; position: absolute; border-radius: 10px; overflow: hidden; z-index: 1;">
+      <div id="map" style="width: 100%; height: 100%; background: #1a1a1a;"></div>
+    </div>
     <div id="time" style="left: 441.21px; top: 48.11px; position: absolute; color: white; font-size: 55.97px; font-family: Inter; font-weight: 100; letter-spacing: 2.80px; word-wrap: break-word">{{ time }}</div>
     <div id="mode" style="left: 441.21px; top: 109.02px; position: absolute; color: #A7A7A7; font-size: 14.76px; font-family: Inter; font-weight: 400; letter-spacing: 1.98px; word-wrap: break-word; text-transform:uppercase; text-align: center; width: 141.58px;">{{ mode }}</div>
     
-    <div id="settings-button" style="width: 40px; height: 40px; right: 495px; top: 10px; position: absolute; cursor: pointer;">
+    <div id="settings-button" style="width: 40px; height: 40px; right: 495px; top: 10px; position: absolute; cursor: pointer; z-index: 2;">
       <img src="/static/img/menu.svg" style="width: 100%; height: 100%;" />
     </div>
 
-    <div id="overlay" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: rgba(0, 0, 0, 0.5); opacity: 0; pointer-events: none; transition: opacity 0.25s ease-in-out;"></div>
+    <div id="overlay" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: rgba(0, 0, 0, 0.5); opacity: 0; pointer-events: none; transition: opacity 0.25s ease-in-out; z-index: 3;"></div>
 
-    <div id="settings-menu" style="width: 350px; height: 100%; right: -350px; top: 0; position: absolute; background: #232323; transition: right 0.25s ease-in-out; padding: 20px; box-sizing: border-box; border-radius: 38px 0 0 38px;">
-      <h2 style="color: white; font-family: Inter; font-weight: 500; margin-bottom: 20px;">Settings</h2>
+    <div id="settings-menu" style="width: 350px; height: 100%; right: -350px; top: 0; position: absolute; background: #232323; transition: right 0.25s ease-in-out; padding: 20px; box-sizing: border-box; border-radius: 38px 0 0 38px; z-index: 4;">
+      <h2 style="color: white; font-family: Inter; font-weight: 500; margin-bottom: 20px; font-weight: 600; font-size: 32px; text-align: center;">OPTIONS</h2>
       <div style="color: #A7A7A7; font-family: Inter; font-size: 14px;">
         <div style="margin-bottom: 15px;">
-          <label>Display Units</label>
-          <select id="units-select" style="background: #303030; color: white; border: none; padding: 5px; margin-top: 5px; width: 100%;">
+          <label style="font-weight: 200; font-size: 24px; text-transform: uppercase;">Display Units</label>
+          <select id="units-select" style="background: #303030; color: white; border: none; padding: 5px; margin-top: 5px; width: 100%; font-weight: 200; font-size: 18px; border-radius: 5px;">
             <option value="imperial">Imperial (mph, °F)</option>
-            <option value="metric">Metric (km/h, °C)</option>
+            <option value="metric">Metric (kph, °C)</option>
           </select>
+          <br>
+          <br>
+          <div style="margin-bottom: 15px;">
+            <label style="font-weight: 200; font-size: 24px; text-transform: uppercase;">Refresh Rate</label>
+            <div style="display: flex; align-items: center; margin-top: 5px;">
+              <input type="range" id="refresh-rate" min="50" max="250" step="50" value="100" style="width: 80%; background: #303030; height: 5px; -webkit-appearance: none; border-radius: 5px;">
+              <span id="refresh-value" style="color: white; margin-left: 10px; font-weight: 200; font-size: 18px;">100ms</span>
+            </div>
+          </div>
+          <br>
+          <div style="margin-bottom: 15px;">
+            <label style="font-weight: 200; font-size: 24px; text-transform: uppercase;">Mode Selection</label>
+            <select id="mode-select" style="background: #303030; color: white; border: none; padding: 5px; margin-top: 5px; width: 100%; font-weight: 200; font-size: 18px; border-radius: 5px;">
+              <option value="Debug">Debug</option>
+              <option value="Acceleration">Acceleration</option>
+              <option value="Autocross">Autocross</option>
+              <option value="Endurance">Endurance</option>
+            </select>
+          </div>
         </div>
+      </div>
+      <div style="position: absolute; bottom: 20px; width: calc(100% - 40px);">
+        <button id="exit-button" style="width: 40%; margin-left: 30%; padding: 10px; background: #BE3838; color: white; border: none; border-radius: 15px; font-family: Inter; cursor: pointer; font-weight: 600; font-size: 28px;">EXIT</button>
       </div>
     </div>
   </div>
