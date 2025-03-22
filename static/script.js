@@ -193,6 +193,7 @@ function updateValues(data) {
   }
 
   if (data.map && data.latitude !== null && data.longitude !== null) {
+    console.log(data.latitude, data.longitude);
     vehicleMarker.setLatLng([data.latitude, data.longitude]);
     vehicleMap.setView([data.latitude, data.longitude], vehicleMap.getZoom());
     mapContainer.style.opacity = 1;

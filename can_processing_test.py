@@ -44,9 +44,6 @@ def parseLatLong(message):
     # Latitude and longitude are signed 32-bit integers representing decimal degrees * 10^7
     lat_decimal = int.from_bytes(message.data[0:4], byteorder='little', signed=True) / 10000000
     long_decimal = int.from_bytes(message.data[4:8], byteorder='little', signed=True) / 10000000
-
-    print(f"Latitude: {lat_decimal}")
-    print(f"Longitude: {long_decimal}")
     
     # Convert latitude to degrees, minutes, seconds
     lat_deg = int(abs(lat_decimal))
@@ -128,12 +125,12 @@ try:
                 print(f"Longitude: {long_tuple[0]}° {long_tuple[1]}' {long_tuple[2]}\" {long_tuple[3]}")
             case CanID.DR_AltSpeedCOG.value:
                 altitude, cog, speed, dr_mode, satellite_count, pdop = parseAltSpeedCOG(msg)
-                print(f"Altitude: {altitude:.1f}m")
-                print(f"Course over ground: {cog:.1f}°")
-                print(f"Speed: {speed:.1f} m/s")
-                print(f"DR Mode: {dr_mode}")
-                print(f"Satellite count: {satellite_count}")
-                print(f"PDOP: {pdop}")
+                # print(f"Altitude: {altitude:.1f}m")
+                # print(f"Course over ground: {cog:.1f}°")
+                # print(f"Speed: {speed:.1f} m/s")
+                # print(f"DR Mode: {dr_mode}")
+                # print(f"Satellite count: {satellite_count}")
+                # print(f"PDOP: {pdop}")
             case _:
                 print()
 except (KeyboardInterrupt):
